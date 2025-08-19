@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Achuchi - Software Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            padding: 2rem;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+            }
+            100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 3s ease infinite;
+            background-size: 200% auto;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .status {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 3rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .social-link:hover::before {
+            opacity: 0.3;
+        }
+
+        .social-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover i {
+            transform: scale(1.2);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        /* Smoke animation */
+        .smoke {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .smoke span {
+            position: absolute;
+            bottom: -50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: smoke-animation 15s linear infinite;
+        }
+
+        @keyframes smoke-animation {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+                filter: blur(0);
+            }
+            50% {
+                opacity: 0.5;
+                filter: blur(10px);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+                filter: blur(20px);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .social-link {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Smoke animation elements -->
+    <div class="smoke" id="smoke-container"></div>
+    
+    <div class="container">
+        <div class="logo">William Achuchi</div>
+        <h1>Website Under Maintenance</h1>
+        <p class="subtitle">We're working hard to improve our website and will be back shortly. Thank you for your patience.</p>
+        
+        <div class="status">🚀 Coming Soon - Amazing Things Are Brewing</div>
+        
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/achuchi/" class="social-link" target="_blank">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://x.com/dev_williee" class="social-link" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://github.com/DeveloperWilliams" class="social-link" target="_blank">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+        
+        <p class="copyright">© 2023 William Achuchi. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        // Create smoke animation
+        function createSmoke() {
+            const smokeContainer = document.getElementById('smoke-container');
+            const count = 20;
+            
+            for (let i = 0; i < count; i++) {
+                const smoke = document.createElement('span');
+                const size = Math.random() * 100 + 50;
+                
+                smoke.style.width = size + 'px';
+                smoke.style.height = size + 'px';
+                smoke.style.left = Math.random() * 100 + 'vw';
+                smoke.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                smoke.style.animationDelay = Math.random() * 5 + 's';
+                
+                smokeContainer.appendChild(smoke);
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            createSmoke();
+            
+            // Add subtle hover effect to the main container
+            const container = document.querySelector('.container');
+            document.addEventListener('mousemove', function(e) {
+                const moveX = (e.clientX - window.innerWidth / 2) / 25;
+                const moveY = (e.clientY - window.innerHeight / 2) / 25;
+                
+                container.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
