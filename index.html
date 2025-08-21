@@ -3,532 +3,877 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>William Achuchi - Software Engineer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>William Achuchi - Terminal Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Base styling */
+        :root {
+            --terminal-green: #00ff41;
+            --terminal-blue: #4FC3F7;
+            --terminal-purple: #CE93D8;
+            --terminal-yellow: #FFD54F;
+            --terminal-red: #FF6B6B;
+            --terminal-orange: #FFB74D;
+            --terminal-bg: #0a0a0a;
+            --terminal-secondary: #1a1a1a;
+            --terminal-border: #333;
+            --glow-color: rgba(0, 255, 65, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        :root {
-            --primary: #33ff33;
-            --secondary: #ff33cc;
-            --accent: #3399ff;
-            --background: #000;
-            --terminal-bg: #111;
-            --header-bg: #222;
-            --text: #33ff33;
-            --prompt: #ff33cc;
-            --cursor: #33ff33;
-            --selection: rgba(51, 255, 51, 0.3);
-        }
-        
+
         body {
-            background-color: var(--background);
-            color: var(--text);
-            font-family: 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
-            line-height: 1.6;
-            padding: 20px;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(51, 255, 51, 0.05) 2%, transparent 20%),
-                radial-gradient(circle at 75% 75%, rgba(255, 51, 204, 0.05) 2%, transparent 20%);
-            background-size: 30px 30px;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(79, 195, 247, 0.1) 0%, transparent 50%),
+                var(--terminal-bg);
+            color: var(--terminal-green);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-weight: 400;
+            line-height: 1.4;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
-        
-        /* Terminal styling */
-        .terminal {
-            max-width: 1000px;
-            margin: 0 auto;
+
+        /* Scanlines effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(51, 255, 51, 0.2);
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.03) 2px,
+                rgba(0, 255, 65, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Loading screen */
+        .boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--terminal-bg);
+            z-index: 9999;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
         }
-        
+
+        .boot-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .boot-logo {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px var(--glow-color);
+            animation: pulse 2s infinite;
+        }
+
+        .boot-progress {
+            width: 300px;
+            height: 4px;
+            background: var(--terminal-secondary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .boot-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--terminal-green), var(--terminal-blue));
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .boot-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            animation: typewriter 0.5s steps(20, end);
+        }
+
+        /* Main terminal container */
+        .desktop {
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .terminal-window {
+            background: rgba(26, 26, 26, 0.95);
+            border-radius: 12px;
+            border: 1px solid var(--terminal-border);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .terminal-window:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.9),
+                0 0 30px var(--glow-color),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .main-terminal {
+            width: 100%;
+            max-width: 900px;
+            height: 600px;
+        }
+
+        .secondary-terminal {
+            width: 400px;
+            height: 300px;
+        }
+
+        /* Terminal header */
         .terminal-header {
-            background-color: var(--header-bg);
-            padding: 10px 15px;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--primary);
-            user-select: none;
+            border-bottom: 1px solid var(--terminal-border);
+            position: relative;
         }
-        
+
         .window-controls {
             display: flex;
             gap: 8px;
         }
-        
-        .control {
+
+        .window-control {
             width: 12px;
             height: 12px;
             border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        
-        .close { background-color: #ff5f56; }
-        .minimize { background-color: #ffbd2e; }
-        .maximize { background-color: #27c93f; }
-        
-        .terminal-title {
-            flex-grow: 1;
-            text-align: center;
-            font-weight: bold;
+
+        .close { background: #ff5f57; }
+        .minimize { background: #ffbd2e; }
+        .maximize { background: #28ca42; }
+
+        .window-control:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px currentColor;
         }
-        
+
+        .window-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .window-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Terminal body */
         .terminal-body {
-            background-color: var(--terminal-bg);
             padding: 20px;
-            flex-grow: 1;
+            height: calc(100% - 60px);
             overflow-y: auto;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
             position: relative;
         }
-        
-        .terminal-content {
-            height: 100%;
-        }
-        
-        /* Text effects */
-        .command {
-            color: var(--text);
-            margin-bottom: 10px;
-            display: flex;
-        }
-        
-        .prompt {
-            color: var(--prompt);
-            margin-right: 10px;
-            white-space: nowrap;
-        }
-        
-        .cursor {
-            display: inline-block;
-            background-color: var(--cursor);
+
+        .terminal-body::-webkit-scrollbar {
             width: 8px;
-            height: 1em;
-            animation: blink 1s infinite;
-            vertical-align: middle;
         }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: var(--terminal-secondary);
         }
-        
-        /* Link styling */
-        a {
-            color: var(--accent);
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: var(--terminal-green);
+            border-radius: 4px;
+        }
+
+        /* Command styling */
+        .terminal-line {
+            margin-bottom: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .prompt {
+            color: var(--terminal-blue);
+            margin-right: 8px;
+            font-weight: 500;
+            text-shadow: 0 0 5px currentColor;
+        }
+
+        .command {
+            color: var(--terminal-yellow);
+            font-weight: 500;
+        }
+
+        .output {
+            color: var(--terminal-green);
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .error {
+            color: var(--terminal-red);
+        }
+
+        .success {
+            color: var(--terminal-green);
+        }
+
+        .info {
+            color: var(--terminal-blue);
+        }
+
+        .warning {
+            color: var(--terminal-orange);
+        }
+
+        /* Special content styling */
+        .ascii-art {
+            font-family: monospace;
+            color: var(--terminal-purple);
+            text-shadow: 0 0 10px currentColor;
+            line-height: 1.2;
+            white-space: pre;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--terminal-green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin: 2px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 10px var(--glow-color);
+            transform: translateY(-1px);
+        }
+
+        .link {
+            color: var(--terminal-blue);
             text-decoration: none;
-            transition: all 0.3s;
             position: relative;
+            transition: all 0.2s ease;
         }
-        
-        a:hover {
-            color: var(--secondary);
-            text-decoration: underline;
+
+        .link:hover {
+            color: var(--terminal-purple);
+            text-shadow: 0 0 8px currentColor;
         }
-        
-        a::after {
-            content: "";
+
+        .link::after {
+            content: '';
             position: absolute;
             bottom: -2px;
             left: 0;
             width: 0;
-            height: 1px;
-            background-color: var(--secondary);
-            transition: width 0.3s;
+            height: 2px;
+            background: var(--terminal-blue);
+            transition: width 0.3s ease;
         }
-        
-        a:hover::after {
+
+        .link:hover::after {
             width: 100%;
         }
-        
-        /* Content sections */
-        .section {
-            margin-bottom: 25px;
+
+        /* Cursor */
+        .cursor {
+            display: inline-block;
+            background: var(--terminal-green);
+            width: 8px;
+            height: 16px;
+            animation: blink 1s infinite;
+            box-shadow: 0 0 8px var(--glow-color);
         }
-        
-        .section-title {
-            color: #ffcc00;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed var(--primary);
-            padding-bottom: 5px;
-        }
-        
-        .skills-list {
-            list-style-type: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .skills-list li {
-            background-color: rgba(51, 255, 51, 0.1);
-            padding: 5px 10px;
-            border-radius: 3px;
-            border: 1px solid rgba(51, 255, 51, 0.3);
-            transition: all 0.3s;
-        }
-        
-        .skills-list li:hover {
-            background-color: rgba(51, 255, 51, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Input styling */
-        .input-line {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-        
-        #command-input {
+
+        /* Interactive input */
+        .command-input {
             background: transparent;
             border: none;
-            color: var(--text);
+            color: var(--terminal-green);
             font-family: inherit;
             font-size: inherit;
-            padding: 5px;
-            flex-grow: 1;
             outline: none;
-            caret-color: var(--cursor);
+            width: 300px;
         }
-        
-        /* Scrollbar styling */
-        .terminal-body::-webkit-scrollbar {
-            width: 8px;
+
+        .command-input::placeholder {
+            color: rgba(0, 255, 65, 0.5);
         }
-        
-        .terminal-body::-webkit-scrollbar-track {
-            background: rgba(51, 255, 51, 0.1);
-            border-radius: 4px;
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 20px var(--glow-color); }
+            50% { text-shadow: 0 0 40px var(--glow-color); }
         }
-        
-        .terminal-body::-webkit-scrollbar-thumb {
-            background: rgba(51, 255, 51, 0.3);
-            border-radius: 4px;
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
-        
-        .terminal-body::-webkit-scrollbar-thumb:hover {
-            background: rgba(51, 255, 51, 0.5);
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        /* Command output styling */
-        .command-output {
-            margin-bottom: 15px;
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
         }
-        
-        /* ASCII Art */
-        .ascii-art {
-            color: var(--accent);
-            font-family: 'Courier New', monospace;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            white-space: pre;
-            font-size: 12px;
+
+        @keyframes matrix {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
         }
-        
+
+        /* Matrix rain effect */
+        .matrix-char {
+            position: fixed;
+            color: var(--terminal-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            opacity: 0.7;
+            animation: matrix 3s linear infinite;
+            z-index: -1;
+        }
+
+        /* System stats */
+        .system-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .stat-item {
+            background: rgba(0, 255, 65, 0.05);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+
+        .stat-label {
+            color: var(--terminal-blue);
+            font-size: 0.8rem;
+        }
+
+        .stat-value {
+            color: var(--terminal-green);
+            font-weight: 500;
+        }
+
+        /* Progress bars */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--terminal-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--terminal-green), var(--terminal-blue));
+            border-radius: 3px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
-            body {
+            .desktop {
+                flex-direction: column;
                 padding: 10px;
+            }
+            
+            .main-terminal, .secondary-terminal {
+                width: 100%;
+                height: auto;
+                min-height: 400px;
             }
             
             .terminal-body {
                 padding: 15px;
             }
             
-            .skills-list {
-                flex-direction: column;
-                gap: 5px;
+            .boot-logo {
+                font-size: 2rem;
             }
             
-            .ascii-art {
-                font-size: 8px;
+            .boot-progress {
+                width: 250px;
             }
         }
-        
-        /* Animation for initial loading */
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px var(--primary); }
-            50% { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
-            100% { text-shadow: 0 0 5px var(--primary); }
-        }
-        
-        .glowing-text {
-            animation: glow 2s infinite;
-        }
-        
-        /* Selection styling */
-        ::selection {
-            background-color: var(--selection);
+
+        /* Hidden class for animations */
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <div class="terminal">
-        <div class="terminal-header">
-            <div class="window-controls">
-                <div class="control close"></div>
-                <div class="control minimize"></div>
-                <div class="control maximize"></div>
-            </div>
-            <div class="terminal-title">William Achuchi - Software Engineer</div>
-            <div>Terminal v2.0</div>
+    <!-- Boot Screen -->
+    <div class="boot-screen" id="bootScreen">
+        <div class="boot-logo">WILLIAM.SYS</div>
+        <div class="boot-progress">
+            <div class="boot-progress-bar" id="bootProgressBar"></div>
         </div>
-        
-        <div class="terminal-body" id="terminal-output">
-            <div class="terminal-content" id="terminal-content">
+        <div class="boot-text" id="bootText">Initializing system...</div>
+    </div>
+
+    <!-- Desktop -->
+    <div class="desktop hidden" id="desktop">
+        <!-- Main Terminal -->
+        <div class="terminal-window main-terminal">
+            <div class="terminal-header">
+                <div class="window-controls">
+                    <div class="window-control close"></div>
+                    <div class="window-control minimize"></div>
+                    <div class="window-control maximize"></div>
+                </div>
+                <div class="window-title">william@portfolio:~</div>
+                <div class="window-info">zsh</div>
+            </div>
+            <div class="terminal-body" id="mainTerminal">
                 <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- System Monitor Terminal -->
+        <div class="terminal-window secondary-terminal">
+            <div class="terminal-header">
+                <div class="window-controls">
+                    <div class="window-control close"></div>
+                    <div class="window-control minimize"></div>
+                    <div class="window-control maximize"></div>
+                </div>
+                <div class="window-title">system-monitor</div>
+                <div class="window-info">htop</div>
+            </div>
+            <div class="terminal-body" id="systemMonitor">
+                <!-- System stats will be populated -->
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const terminalContent = document.getElementById('terminal-content');
-            let commandIndex = 0;
-            let isInputMode = false;
-            
-// ASCII art for welcome message (modified)
-const asciiArt = `
-  █████╗  ██████╗██╗  ██╗██╗   ██╗ ██████╗██╗  ██╗██╗
- ██╔══██╗██╔════╝██║  ██║██║   ██║██╔════╝██║  ██║██║
- ███████║██║     ███████║██║   ██║██║     ███████║██║
- ██╔══██║██║     ██╔══██║██║   ██║██║     ██╔══██║██║
- ██║  ██║╚██████╗██║  ██║╚██████╔╝╚██████╗██║  ██║██║
- ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝╚═╝
-`;
-            
-            // All content to be displayed with typewriter effect
-            const commands = [
-                {text: asciiArt, delay: 0, isASCII: true},
-                {text: "Welcome to William Achuchi's interactive terminal portfolio", delay: 40},
-                {text: "Initializing system...", delay: 100},
-                {text: "Loading personal profile...", delay: 100},
-                {text: "System ready! Type 'help' to see available commands", delay: 100},
-                {text: " ", delay: 100},
-                {text: "about", delay: 500, isCommand: true},
-                {text: "Software Engineer specializing in backend development with extensive experience in system design and distributed architectures.", delay: 30},
-                {text: "Passionate about creating efficient, scalable solutions and solving complex problems.", delay: 30},
-                {text: " ", delay: 100},
-                {text: "social", delay: 500, isCommand: true},
-                {text: "Twitter:    <a href='https://x.com/dev_williee' target='_blank'>https://x.com/dev_williee</a>", delay: 20},
-                {text: "LinkedIn:   <a href='https://www.linkedin.com/in/achuchi/' target='_blank'>https://www.linkedin.com/in/achuchi/</a>", delay: 20},
-                {text: "GitHub:     <a href='https://github.com/DeveloperWilliams' target='_blank'>https://github.com/DeveloperWilliams</a>", delay: 20},
-                {text: "Blog:       <a href='http://blog.williamachuchi.com/' target='_blank'>http://blog.williamachuchi.com/</a>", delay: 20},
-                {text: " ", delay: 100},
-                {text: "skills", delay: 500, isCommand: true},
-                {text: "Backend Technologies:", delay: 20},
-                {text: "Go, TypeScript, Node.js, Express, .NET, ASP.NET", delay: 20},
-                {text: " ", delay: 20},
-                {text: "Mobile Development:", delay: 20},
-                {text: "Flutter, React Native", delay: 20},
-                {text: " ", delay: 20},
-                {text: "Specializations:", delay: 20},
-                {text: "System Design, Distributed Systems, API Design, Microservices", delay: 20},
-                {text: " ", delay: 100},
-                {text: "contact", delay: 500, isCommand: true},
-                {text: "Email:      <a href='mailto:me@williamachuchi.com'>me@williamachuchi.com</a>", delay: 20},
-                {text: "Phone:      <a href='tel:+254708966189'>+254 708 966 189</a>", delay: 20},
-                {text: "Location:   Nairobi, Kenya", delay: 20},
-                {text: " ", delay: 100},
-                {text: "Thank you for visiting! Type 'help' to see all available commands.", delay: 30},
-                {text: " ", delay: 100, isFinal: true}
-            ];
-            
-            // Available commands for interactive mode
-            const availableCommands = {
-                help: {
-                    output: `<div class="command-output">
-                        <div>Available commands:</div>
-                        <div>&nbsp;&nbsp;about&nbsp;&nbsp;&nbsp;&nbsp;- Display information about me</div>
-                        <div>&nbsp;&nbsp;skills&nbsp;&nbsp;&nbsp;- Show my technical skills</div>
-                        <div>&nbsp;&nbsp;social&nbsp;&nbsp;&nbsp;- View my social profiles</div>
-                        <div>&nbsp;&nbsp;contact&nbsp;&nbsp;- How to get in touch with me</div>
-                        <div>&nbsp;&nbsp;projects&nbsp;- View my projects</div>
-                        <div>&nbsp;&nbsp;clear&nbsp;&nbsp;&nbsp;&nbsp;- Clear the terminal</div>
-                        <div>&nbsp;&nbsp;help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Show this help message</div>
-                    </div>`
-                },
-                about: {
-                    output: `<div class="command-output">
-                        <div>William Achuchi - Software Engineer</div>
-                        <div>Specializing in backend development with extensive experience in system design and distributed architectures.</div>
-                        <div>Passionate about creating efficient, scalable solutions and solving complex problems.</div>
-                        <div>Currently working with technologies like Go, TypeScript, Node.js, and .NET.</div>
-                    </div>`
-                },
-                skills: {
-                    output: `<div class="command-output">
-                        <div>Backend Technologies:</div>
-                        <div>Go, TypeScript, Node.js, Express, .NET, ASP.NET</div>
-                        <div> </div>
-                        <div>Mobile Development:</div>
-                        <div>Flutter, React Native</div>
-                        <div> </div>
-                        <div>Specializations:</div>
-                        <div>System Design, Distributed Systems, API Design, Microservices</div>
-                    </div>`
-                },
-                social: {
-                    output: `<div class="command-output">
-                        <div>Twitter:&nbsp;&nbsp;&nbsp;<a href='https://x.com/dev_williee' target='_blank'>https://x.com/dev_williee</a></div>
-                        <div>LinkedIn:&nbsp;&nbsp;<a href='https://www.linkedin.com/in/achuchi/' target='_blank'>https://www.linkedin.com/in/achuchi/</a></div>
-                        <div>GitHub:&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/DeveloperWilliams' target='_blank'>https://github.com/DeveloperWilliams</a></div>
-                        <div>Blog:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://blog.williamachuchi.com/' target='_blank'>http://blog.williamachuchi.com/</a></div>
-                    </div>`
-                },
-                contact: {
-                    output: `<div class="command-output">
-                        <div>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='mailto:me@williamachuchi.com'>me@williamachuchi.com</a></div>
-                        <div>Phone:&nbsp;&nbsp;&nbsp;&nbsp;<a href='tel:+254708966189'>+254 708 966 189</a></div>
-                        <div>Location:&nbsp;Nairobi, Kenya</div>
-                    </div>`
-                },
-                projects: {
-                    output: `<div class="command-output">
-                        <div>Here are some of my recent projects:</div>
-                        <div> </div>
-                        <div>• <a href='#' target='_blank'>Distributed Task Scheduler</a> - A Go-based distributed system</div>
-                        <div>• <a href='#' target='_blank'>E-commerce API</a> - Microservices architecture with Node.js</div>
-                        <div>• <a href='#' target='_blank'>Mobile Payment Integration</a> - Flutter application</div>
-                        <div> </div>
-                        <div>Visit my GitHub for more projects: <a href='https://github.com/DeveloperWilliams' target='_blank'>github.com/DeveloperWilliams</a></div>
-                    </div>`
-                },
-                clear: {
-                    output: ``,
-                    isClear: true
+        class TerminalPortfolio {
+            constructor() {
+                this.bootScreen = document.getElementById('bootScreen');
+                this.desktop = document.getElementById('desktop');
+                this.mainTerminal = document.getElementById('mainTerminal');
+                this.systemMonitor = document.getElementById('systemMonitor');
+                this.currentLine = 0;
+                this.isTyping = false;
+                
+                this.commands = [
+                    { type: 'system', text: 'William Achuchi Terminal Portfolio v2.0', delay: 100 },
+                    { type: 'system', text: 'Last login: ' + new Date().toDateString(), delay: 50 },
+                    { type: 'separator', text: '', delay: 200 },
+                    { type: 'ascii', text: this.getAsciiArt(), delay: 30 },
+                    { type: 'separator', text: '', delay: 300 },
+                    { type: 'command', command: 'whoami', output: 'William Achuchi - Software Engineer', delay: 100 },
+                    { type: 'command', command: 'pwd', output: '/home/william/portfolio', delay: 100 },
+                    { type: 'separator', text: '', delay: 200 },
+                    { type: 'command', command: 'cat about.md', output: this.getAboutContent(), delay: 40 },
+                    { type: 'separator', text: '', delay: 200 },
+                    { type: 'command', command: 'ls -la skills/', output: this.getSkillsContent(), delay: 30 },
+                    { type: 'separator', text: '', delay: 200 },
+                    { type: 'command', command: 'cat contact.json', output: this.getContactContent(), delay: 30 },
+                    { type: 'separator', text: '', delay: 200 },
+                    { type: 'command', command: 'git status', output: this.getGitStatus(), delay: 50 },
+                    { type: 'separator', text: '', delay: 200 },
+                    { type: 'system', text: '✨ Welcome to my terminal portfolio! Type "help" for available commands.', delay: 50 },
+                    { type: 'input', text: '', delay: 100 }
+                ];
+
+                this.init();
+            }
+
+            async init() {
+                await this.bootSequence();
+                this.showDesktop();
+                this.startSystemMonitor();
+                this.createMatrixRain();
+                await this.sleep(500);
+                this.typeCommands();
+                this.setupInteractivity();
+            }
+
+            async bootSequence() {
+                const progressBar = document.getElementById('bootProgressBar');
+                const bootText = document.getElementById('bootText');
+                
+                const bootSteps = [
+                    'Initializing kernel...',
+                    'Loading drivers...',
+                    'Starting services...',
+                    'Mounting filesystems...',
+                    'Loading portfolio data...',
+                    'Preparing terminal interface...',
+                    'System ready!'
+                ];
+
+                for (let i = 0; i < bootSteps.length; i++) {
+                    bootText.textContent = bootSteps[i];
+                    progressBar.style.width = ((i + 1) / bootSteps.length * 100) + '%';
+                    await this.sleep(300 + Math.random() * 200);
                 }
-            };
-            
-            // Function to type out text with a delay
-            function typeWriter() {
-                if (commandIndex < commands.length) {
-                    const command = commands[commandIndex];
-                    
-                    if (command.isCommand) {
-                        const promptElem = document.createElement('div');
-                        promptElem.className = 'command';
-                        promptElem.innerHTML = `<span class="prompt">visitor@portfolio:~$</span> ${command.text}`;
-                        terminalContent.appendChild(promptElem);
-                    } else if (command.isASCII) {
-                        const asciiElem = document.createElement('div');
-                        asciiElem.className = 'ascii-art';
-                        asciiElem.textContent = command.text;
-                        terminalContent.appendChild(asciiElem);
-                    } else if (command.isFinal) {
-                        // After the initial animation, setup interactive mode
-                        setTimeout(initInteractiveMode, command.delay);
-                    } else {
-                        const textElem = document.createElement('div');
-                        textElem.innerHTML = command.text;
-                        terminalContent.appendChild(textElem);
-                    }
-                    
-                    // Scroll to bottom
-                    terminalContent.scrollTop = terminalContent.scrollHeight;
-                    
-                    commandIndex++;
-                    setTimeout(typeWriter, command.delay);
+
+                await this.sleep(500);
+            }
+
+            showDesktop() {
+                this.bootScreen.classList.add('hidden');
+                this.desktop.classList.remove('hidden');
+            }
+
+            getAsciiArt() {
+                return `
+┌─┐┌─┐┌─┐┌┬┐┬ ┬┌─┐┬─┐┌─┐  ┌─┐┌┐┌┌─┐┬┌┐┌┌─┐┌─┐┬─┐
+└─┐│ │├┤  │ │││├─┤├┬┘├┤   ├┤ ││││ ┬││││├┤ ├┤ ├┬┘
+└─┘└─┘└   ┴ └┴┘┴ ┴┴└─└─┘  └─┘┘└┘└─┘┴┘└┘└─┘└─┘┴└─
+                                                   `;
+            }
+
+            getAboutContent() {
+                return `👨‍💻 Software Engineer specializing in backend development
+🏗️ Extensive experience in system design and distributed architectures
+🚀 Passionate about building scalable and efficient solutions
+📍 Based in Nairobi, Kenya
+🔧 Currently working on microservices and cloud-native applications`;
+            }
+
+            getSkillsContent() {
+                const skills = [
+                    { category: 'Backend', items: ['Go', 'TypeScript', 'Node.js', 'Express', '.NET', 'ASP.NET'] },
+                    { category: 'Mobile', items: ['Flutter', 'React Native'] },
+                    { category: 'Specializations', items: ['System Design', 'Distributed Systems', 'API Design'] },
+                    { category: 'Tools', items: ['Docker', 'Kubernetes', 'AWS', 'PostgreSQL', 'MongoDB'] }
+                ];
+
+                let content = '';
+                skills.forEach(category => {
+                    content += `\n📂 ${category.category}/\n`;
+                    category.items.forEach(item => {
+                        content += `   ├── ${item}\n`;
+                    });
+                });
+                return content;
+            }
+
+            getContactContent() {
+                return `{
+  "email": "me@williamachuchi.com",
+  "phone": "+254 708 966 189",
+  "social": {
+    "twitter": "https://x.com/dev_williee",
+    "linkedin": "https://www.linkedin.com/in/achuchi/",
+    "github": "https://github.com/DeveloperWilliams",
+    "blog": "http://blog.williamachuchi.com/"
+  },
+  "status": "available_for_opportunities",
+  "timezone": "EAT (UTC+3)"
+}`;
+            }
+
+            getGitStatus() {
+                return `On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+        modified:   portfolio.html
+        modified:   skills.json
+        new file:   projects/advanced-terminal.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ideas/
+        
+nothing to commit, working tree clean`;
+            }
+
+            async typeCommands() {
+                for (let i = 0; i < this.commands.length; i++) {
+                    const command = this.commands[i];
+                    await this.displayCommand(command);
+                    await this.sleep(command.delay);
                 }
             }
-            
-            // Initialize interactive mode
-            function initInteractiveMode() {
-                isInputMode = true;
-                
-                // Create input line
-                const inputLine = document.createElement('div');
-                inputLine.className = 'input-line';
-                inputLine.innerHTML = `
-                    <span class="prompt">visitor@portfolio:~$</span>
-                    <input type="text" id="command-input" autofocus>
-                `;
-                terminalContent.appendChild(inputLine);
-                
-                const commandInput = document.getElementById('command-input');
-                
-                // Focus on input
-                commandInput.focus();
-                
-                // Handle command submission
-                commandInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        const command = this.value.trim().toLowerCase();
-                        this.value = '';
-                        
-                        // Add the command to output
-                        const commandElem = document.createElement('div');
-                        commandElem.className = 'command';
-                        commandElem.innerHTML = `<span class="prompt">visitor@portfolio:~$</span> ${command}`;
-                        terminalContent.appendChild(commandElem);
-                        
-                        // Process command
-                        if (availableCommands[command]) {
-                            if (availableCommands[command].isClear) {
-                                // Clear terminal
-                                terminalContent.innerHTML = '';
-                            } else {
-                                // Add command output
-                                const outputElem = document.createElement('div');
-                                outputElem.innerHTML = availableCommands[command].output;
-                                terminalContent.appendChild(outputElem);
-                            }
-                        } else if (command) {
-                            // Command not found
-                            const errorElem = document.createElement('div');
-                            errorElem.className = 'command-output';
-                            errorElem.innerHTML = `Command not found: ${command}. Type 'help' to see available commands.`;
-                            terminalContent.appendChild(errorElem);
-                        }
-                        
-                        // Add new input line
-                        const newInputLine = document.createElement('div');
-                        newInputLine.className = 'input-line';
-                        newInputLine.innerHTML = `
-                            <span class="prompt">visitor@portfolio:~$</span>
-                            <input type="text" id="command-input" autofocus>
+
+            async displayCommand(command) {
+                const line = document.createElement('div');
+                line.className = 'terminal-line';
+
+                switch (command.type) {
+                    case 'command':
+                        line.innerHTML = `
+                            <span class="prompt">william@portfolio:~$</span>
+                            <span class="command">${command.command}</span>
                         `;
-                        terminalContent.appendChild(newInputLine);
+                        this.mainTerminal.appendChild(line);
+                        await this.sleep(200);
                         
-                        // Remove old input and focus on new one
-                        inputLine.remove();
-                        const newCommandInput = document.getElementById('command-input');
-                        newCommandInput.focus();
-                        
-                        // Add event listener to new input
-                        newCommandInput.addEventListener('keydown', arguments.callee);
-                        
-                        // Scroll to bottom
-                        terminalContent.scrollTop = terminalContent.scrollHeight;
+                        const outputLine = document.createElement('div');
+                        outputLine.className = 'terminal-line';
+                        outputLine.innerHTML = `<span class="output">${command.output}</span>`;
+                        this.mainTerminal.appendChild(outputLine);
+                        break;
+
+                    case 'ascii':
+                        line.innerHTML = `<span class="ascii-art">${command.text}</span>`;
+                        this.mainTerminal.appendChild(line);
+                        break;
+
+                    case 'system':
+                        line.innerHTML = `<span class="info">${command.text}</span>`;
+                        this.mainTerminal.appendChild(line);
+                        break;
+
+                    case 'separator':
+                        line.innerHTML = '&nbsp;';
+                        this.mainTerminal.appendChild(line);
+                        break;
+
+                    case 'input':
+                        line.innerHTML = `
+                            <span class="prompt">william@portfolio:~$</span>
+                            <input type="text" class="command-input" placeholder="Type 'help' for commands..." id="commandInput">
+                            <span class="cursor"></span>
+                        `;
+                        this.mainTerminal.appendChild(line);
+                        break;
+                }
+
+                this.mainTerminal.scrollTop = this.mainTerminal.scrollHeight;
+            }
+
+            startSystemMonitor() {
+                const stats = [
+                    { label: 'CPU Usage', value: '45%', max: 100 },
+                    { label: 'Memory', value: '2.1/8.0 GB', max: 100 },
+                    { label: 'Disk I/O', value: '124 MB/s', max: 100 },
+                    { label: 'Network', value: '1.2 Mbps', max: 100 },
+                    { label: 'Uptime', value: '7d 14h 32m', max: 100 },
+                    { label: 'Processes', value: '234', max: 100 }
+                ];
+
+                const header = document.createElement('div');
+                header.innerHTML = `<span class="info">System Monitor - Real Time Stats</span>`;
+                this.systemMonitor.appendChild(header);
+
+                const separator = document.createElement('div');
+                separator.innerHTML = '&nbsp;';
+                this.systemMonitor.appendChild(separator);
+
+                stats.forEach(stat => {
+                    const statElement = document.createElement('div');
+                    statElement.className = 'stat-item';
+                    const percentage = Math.floor(Math.random() * 80) + 10;
+                    
+                    statElement.innerHTML = `
+                        <div class="stat-label">${stat.label}</div>
+                        <div class="stat-value">${stat.value}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    `;
+                    this.systemMonitor.appendChild(statElement);
+                });
+
+                // Update stats periodically
+                setInterval(() => {
+                    const progressBars = this.systemMonitor.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const newWidth = Math.floor(Math.random() * 80) + 10;
+                        bar.style.width = newWidth + '%';
+                    });
+                }, 2000);
+            }
+
+            createMatrixRain() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+                
+                setInterval(() => {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.left = Math.random() * window.innerWidth + 'px';
+                    char.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(char);
+
+                    setTimeout(() => {
+                        char.remove();
+                    }, 5000);
+                }, 500);
+            }
+
+            setupInteractivity() {
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('link')) {
+                        e.preventDefault();
+                        const url = e.target.getAttribute('href');
+                        if (url) {
+                            window.open(url, '_blank');
+                        }
                     }
                 });
+
+                // Add command input functionality
+                setTimeout(() => {
+                    const commandInput = document.getElementById('commandInput');
+                    if (commandInput) {
+                        commandInput.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') {
+                                this.handleCommand(e.target.value);
+                                e.target.value = '';
+                            }
+                        });
+                        commandInput.focus();
+                    }
+                }, 1000);
             }
-            
-            // Start the typewriter effect
-            typeWriter();
-            
-            // Add click to focus functionality
-            document.addEventListener('click', function() {
-                if (isInputMode) {
-                    const input = document.getElementById('command-input');
-                    if (input) input.focus();
+
+            handleCommand(command) {
+                const line = document.createElement('div');
+                line.className = 'terminal-line';
+                line.innerHTML = `<span class="prompt">william@portfolio:~$</span> <span class="command">${command}</span>`;
+                
+                const lastLine = this.mainTerminal.lastElementChild;
+                this.mainTerminal.insertBefore(line, lastLine);
+
+                const outputLine = document.createElement('div');
+                outputLine.className = 'terminal-line';
+
+                switch (command.toLowerCase()) {
+                    case 'help':
+                        outputLine.innerHTML = `<span class="output">Available commands:
+  help       - Show this help message
+  clear      - Clear terminal
+  projects   - Show my projects
+  social     - Display social links
+  resume     - Download resume
+  date       - Show current date
+  fortune    - Random quote</span>`;
+                        break;
+                    
+                    case 'clear':
+                        this.mainTerminal.innerHTML = '';
+                        const newInputLine = document.createElement('div');
+                        newInputLine.className = 'terminal-line';
+                        newInputLine.innerHTML = `
+                            <span class="prompt">william@portfolio:~$</span>
+                            <input type="text" class="command-input" placeholder="Type 'help' for commands..." id="commandInput">
+                            <span class="cursor"></span>
+                        `;
+                        this.mainTerminal.appendChild(newInputLine);
+                        document.getElementById('commandInput').focus();
+                        return;
+                    
+                    case 'projects':
+                        outputLine.innerHTML = `<span class="output">🚀 Featured Projects:
+  • Terminal Portfolio - Interactive web-based terminal
+  • Distributed Task Queue - Go-based microservice
+  • Flutter E-commerce App - Cross-platform mobile app
+  • API Gateway - Node.js/Express middleware system</span>`;
+                        break;
+                    
+                    case 'social':
+                        outputLine.innerHTML = `<span class="output">🔗 Connect with me:
+  Twitter:  <a href="https://x.com/dev_williee" class="link">@dev_williee</a>
+  LinkedIn: <a href="https://www.linkedin.com/in/achuchi/" class="link">linkedin.com/in/achuchi</a>
+  GitHub:   <a href="https://github.com/DeveloperWilliams" class="link">github.com/DeveloperWilliams</a>
+  Blog:     <a href="http://blog.williamachuchi.com/" class="link">blog.williamachuchi.com</a></span>`;
+                        break;
+                    
+                    case 'resume':
+                        outputLine.innerHTML = `<span class="output">📄 Downloading resume...
+<a href="#" class="link">william_achuchi_resume.pdf</a> (simulated download)</span>`;
+                        break;
+                    
+                    case 'date':
+                        outputLine.innerHTML = `<span class="output">${new Date().toString()}</span>`;
+                        break;
+                    
+                    case 'fortune':
+                        const quotes = [
+                            "Code is poetry written for machines to understand.",
+                            "The best error message is the one that never shows up.",
+                            "Good code is its own best documentation.",
+                            "First, solve the problem. Then, write the code.",
+                            "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+                            "The most disastrous thing that you can ever learn is your first programming language.",
+                            "Programming isn't about what you know; it's about what you can figure out."
+                        ];
+                        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                        outputLine.innerHTML = `<span class="output">${randomQuote}</span>`;
+                        break;
+                    
+                    default:
+                        outputLine.innerHTML = `<span class="error">Command not found: ${command}. Type 'help' for available commands.</span>`;
+                        break;
                 }
-            });
+
+                this.mainTerminal.appendChild(outputLine);
+                this.mainTerminal.scrollTop = this.mainTerminal.scrollHeight;
+            }
+
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Initialize the portfolio when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new TerminalPortfolio();
         });
     </script>
 </body>
