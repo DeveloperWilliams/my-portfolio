@@ -4,307 +4,530 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>William Achuchi - Software Engineer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Base styling */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
+        :root {
+            --primary: #33ff33;
+            --secondary: #ff33cc;
+            --accent: #3399ff;
+            --background: #000;
+            --terminal-bg: #111;
+            --header-bg: #222;
+            --text: #33ff33;
+            --prompt: #ff33cc;
+            --cursor: #33ff33;
+            --selection: rgba(51, 255, 51, 0.3);
+        }
+        
         body {
-            font-family: 'Josefin Sans', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #fff;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .container {
-            max-width: 1200px;
-            padding: 2rem;
-            text-align: center;
-            z-index: 10;
-            position: relative;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
-            }
-            100% {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            }
-        }
-
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient 3s ease infinite;
-            background-size: 200% auto;
-        }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .subtitle {
-            font-size: 1.8rem;
-            font-weight: 300;
-            margin-bottom: 2.5rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            background-color: var(--background);
+            color: var(--text);
+            font-family: 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
             line-height: 1.6;
-        }
-
-        .status {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            margin-bottom: 3rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        .social-links {
+            padding: 20px;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(51, 255, 51, 0.05) 2%, transparent 20%),
+                radial-gradient(circle at 75% 75%, rgba(255, 51, 204, 0.05) 2%, transparent 20%);
+            background-size: 30px 30px;
         }
-
-        .social-link {
+        
+        /* Terminal styling */
+        .terminal {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(51, 255, 51, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-header {
+            background-color: var(--header-bg);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--primary);
+            user-select: none;
+        }
+        
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .close { background-color: #ff5f56; }
+        .minimize { background-color: #ffbd2e; }
+        .maximize { background-color: #27c93f; }
+        
+        .terminal-title {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .terminal-body {
+            background-color: var(--terminal-bg);
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .terminal-content {
+            height: 100%;
+        }
+        
+        /* Text effects */
+        .command {
+            color: var(--text);
+            margin-bottom: 10px;
+            display: flex;
+        }
+        
+        .prompt {
+            color: var(--prompt);
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+        
+        .cursor {
+            display: inline-block;
+            background-color: var(--cursor);
+            width: 8px;
+            height: 1em;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Link styling */
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+        
+        a:hover::after {
+            width: 100%;
+        }
+        
+        /* Content sections */
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            color: #ffcc00;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--primary);
+            padding-bottom: 5px;
+        }
+        
+        .skills-list {
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .skills-list li {
+            background-color: rgba(51, 255, 51, 0.1);
+            padding: 5px 10px;
+            border-radius: 3px;
+            border: 1px solid rgba(51, 255, 51, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .skills-list li:hover {
+            background-color: rgba(51, 255, 51, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Input styling */
+        .input-line {
             display: flex;
             align-items: center;
-            justify-content: center;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
+            margin-top: 10px;
         }
-
-        .social-link:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        
+        #command-input {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            flex-grow: 1;
+            outline: none;
+            caret-color: var(--cursor);
         }
-
-        .social-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
+        
+        /* Scrollbar styling */
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
         }
-
-        .social-link:hover::before {
-            opacity: 0.3;
+        
+        .terminal-body::-webkit-scrollbar-track {
+            background: rgba(51, 255, 51, 0.1);
+            border-radius: 4px;
         }
-
-        .social-link i {
-            transition: transform 0.3s ease;
+        
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: rgba(51, 255, 51, 0.3);
+            border-radius: 4px;
         }
-
-        .social-link:hover i {
-            transform: scale(1.2);
+        
+        .terminal-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(51, 255, 51, 0.5);
         }
-
-        .copyright {
-            margin-top: 2rem;
-            font-weight: 300;
-            opacity: 0.8;
+        
+        /* Command output styling */
+        .command-output {
+            margin-bottom: 15px;
         }
-
-        /* Smoke animation */
-        .smoke {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
+        
+        /* ASCII Art */
+        .ascii-art {
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            white-space: pre;
+            font-size: 12px;
         }
-
-        .smoke span {
-            position: absolute;
-            bottom: -50px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            animation: smoke-animation 15s linear infinite;
-        }
-
-        @keyframes smoke-animation {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-                filter: blur(0);
-            }
-            50% {
-                opacity: 0.5;
-                filter: blur(10px);
-            }
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-                filter: blur(20px);
-            }
-        }
-
+        
         /* Responsive design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
+            body {
+                padding: 10px;
             }
             
-            .subtitle {
-                font-size: 1.4rem;
+            .terminal-body {
+                padding: 15px;
             }
             
-            .social-link {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
+            .skills-list {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .ascii-art {
+                font-size: 8px;
             }
         }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .social-links {
-                gap: 1rem;
-            }
-            
-            .social-link {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
+        
+        /* Animation for initial loading */
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px var(--primary); }
+            50% { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
+            100% { text-shadow: 0 0 5px var(--primary); }
+        }
+        
+        .glowing-text {
+            animation: glow 2s infinite;
+        }
+        
+        /* Selection styling */
+        ::selection {
+            background-color: var(--selection);
         }
     </style>
 </head>
 <body>
-    <!-- Smoke animation elements -->
-    <div class="smoke" id="smoke-container"></div>
-    
-    <div class="container">
-        <div class="logo">William Achuchi</div>
-        <h1>Website Under Maintenance</h1>
-        <p class="subtitle">I'm working hard to improve my website and will be back shortly. Thank you for your patience.</p>
-        
-        <div class="status">🚀 Coming Soon - Amazing Things Are Brewing</div>
-        
-        <div class="social-links">
-            <a href="https://www.linkedin.com/in/achuchi/" class="social-link" target="_blank">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="https://x.com/dev_williee" class="social-link" target="_blank">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://github.com/DeveloperWilliams" class="social-link" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="window-controls">
+                <div class="control close"></div>
+                <div class="control minimize"></div>
+                <div class="control maximize"></div>
+            </div>
+            <div class="terminal-title">William Achuchi - Software Engineer</div>
+            <div>Terminal v2.0</div>
         </div>
         
-        <p class="copyright">© 2023 William Achuchi. All Rights Reserved.</p>
+        <div class="terminal-body" id="terminal-output">
+            <div class="terminal-content" id="terminal-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
     </div>
 
     <script>
-        // Create smoke animation
-        function createSmoke() {
-            const smokeContainer = document.getElementById('smoke-container');
-            const count = 20;
+        document.addEventListener('DOMContentLoaded', function() {
+            const terminalContent = document.getElementById('terminal-content');
+            let commandIndex = 0;
+            let isInputMode = false;
             
-            for (let i = 0; i < count; i++) {
-                const smoke = document.createElement('span');
-                const size = Math.random() * 100 + 50;
-                
-                smoke.style.width = size + 'px';
-                smoke.style.height = size + 'px';
-                smoke.style.left = Math.random() * 100 + 'vw';
-                smoke.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                smoke.style.animationDelay = Math.random() * 5 + 's';
-                
-                smokeContainer.appendChild(smoke);
+            // ASCII art for welcome message
+            const asciiArt = `
+  ██╗    ██╗██╗██╗     ███╗   ███╗ █████╗ ██╗         █████╗  ██████╗██╗  ██╗██╗   ██╗ ██████╗██╗  ██╗██╗
+  ██║    ██║██║██║     ████╗ ████║██╔══██╗██║        ██╔══██╗██╔════╝██║  ██║██║   ██║██╔════╝██║  ██║██║
+  ██║ █╗ ██║██║██║     ██╔████╔██║███████║██║        ███████║██║     ███████║██║   ██║██║     ███████║██║
+  ██║███╗██║██║██║     ██║╚██╔╝██║██╔══██║██║        ██╔══██║██║     ██╔══██║██║   ██║██║     ██╔══██║██║
+  ╚███╔███╔╝██║███████╗██║ ╚═╝ ██║██║  ██║███████╗██╗██║  ██║╚██████╗██║  ██║╚██████╔╝╚██████╗██║  ██║██║
+   ╚══╝╚══╝ ╚═╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝╚═╝
+            `;
+            
+            // All content to be displayed with typewriter effect
+            const commands = [
+                {text: asciiArt, delay: 0, isASCII: true},
+                {text: "Welcome to William Achuchi's interactive terminal portfolio", delay: 40},
+                {text: "Initializing system...", delay: 100},
+                {text: "Loading personal profile...", delay: 100},
+                {text: "System ready! Type 'help' to see available commands", delay: 100},
+                {text: " ", delay: 100},
+                {text: "about", delay: 500, isCommand: true},
+                {text: "Software Engineer specializing in backend development with extensive experience in system design and distributed architectures.", delay: 30},
+                {text: "Passionate about creating efficient, scalable solutions and solving complex problems.", delay: 30},
+                {text: " ", delay: 100},
+                {text: "social", delay: 500, isCommand: true},
+                {text: "Twitter:    <a href='https://x.com/dev_williee' target='_blank'>https://x.com/dev_williee</a>", delay: 20},
+                {text: "LinkedIn:   <a href='https://www.linkedin.com/in/achuchi/' target='_blank'>https://www.linkedin.com/in/achuchi/</a>", delay: 20},
+                {text: "GitHub:     <a href='https://github.com/DeveloperWilliams' target='_blank'>https://github.com/DeveloperWilliams</a>", delay: 20},
+                {text: "Blog:       <a href='http://blog.williamachuchi.com/' target='_blank'>http://blog.williamachuchi.com/</a>", delay: 20},
+                {text: " ", delay: 100},
+                {text: "skills", delay: 500, isCommand: true},
+                {text: "Backend Technologies:", delay: 20},
+                {text: "Go, TypeScript, Node.js, Express, .NET, ASP.NET", delay: 20},
+                {text: " ", delay: 20},
+                {text: "Mobile Development:", delay: 20},
+                {text: "Flutter, React Native", delay: 20},
+                {text: " ", delay: 20},
+                {text: "Specializations:", delay: 20},
+                {text: "System Design, Distributed Systems, API Design, Microservices", delay: 20},
+                {text: " ", delay: 100},
+                {text: "contact", delay: 500, isCommand: true},
+                {text: "Email:      <a href='mailto:me@williamachuchi.com'>me@williamachuchi.com</a>", delay: 20},
+                {text: "Phone:      <a href='tel:+254708966189'>+254 708 966 189</a>", delay: 20},
+                {text: "Location:   Nairobi, Kenya", delay: 20},
+                {text: " ", delay: 100},
+                {text: "Thank you for visiting! Type 'help' to see all available commands.", delay: 30},
+                {text: " ", delay: 100, isFinal: true}
+            ];
+            
+            // Available commands for interactive mode
+            const availableCommands = {
+                help: {
+                    output: `<div class="command-output">
+                        <div>Available commands:</div>
+                        <div>&nbsp;&nbsp;about&nbsp;&nbsp;&nbsp;&nbsp;- Display information about me</div>
+                        <div>&nbsp;&nbsp;skills&nbsp;&nbsp;&nbsp;- Show my technical skills</div>
+                        <div>&nbsp;&nbsp;social&nbsp;&nbsp;&nbsp;- View my social profiles</div>
+                        <div>&nbsp;&nbsp;contact&nbsp;&nbsp;- How to get in touch with me</div>
+                        <div>&nbsp;&nbsp;projects&nbsp;- View my projects</div>
+                        <div>&nbsp;&nbsp;clear&nbsp;&nbsp;&nbsp;&nbsp;- Clear the terminal</div>
+                        <div>&nbsp;&nbsp;help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Show this help message</div>
+                    </div>`
+                },
+                about: {
+                    output: `<div class="command-output">
+                        <div>William Achuchi - Software Engineer</div>
+                        <div>Specializing in backend development with extensive experience in system design and distributed architectures.</div>
+                        <div>Passionate about creating efficient, scalable solutions and solving complex problems.</div>
+                        <div>Currently working with technologies like Go, TypeScript, Node.js, and .NET.</div>
+                    </div>`
+                },
+                skills: {
+                    output: `<div class="command-output">
+                        <div>Backend Technologies:</div>
+                        <div>Go, TypeScript, Node.js, Express, .NET, ASP.NET</div>
+                        <div> </div>
+                        <div>Mobile Development:</div>
+                        <div>Flutter, React Native</div>
+                        <div> </div>
+                        <div>Specializations:</div>
+                        <div>System Design, Distributed Systems, API Design, Microservices</div>
+                    </div>`
+                },
+                social: {
+                    output: `<div class="command-output">
+                        <div>Twitter:&nbsp;&nbsp;&nbsp;<a href='https://x.com/dev_williee' target='_blank'>https://x.com/dev_williee</a></div>
+                        <div>LinkedIn:&nbsp;&nbsp;<a href='https://www.linkedin.com/in/achuchi/' target='_blank'>https://www.linkedin.com/in/achuchi/</a></div>
+                        <div>GitHub:&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/DeveloperWilliams' target='_blank'>https://github.com/DeveloperWilliams</a></div>
+                        <div>Blog:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://blog.williamachuchi.com/' target='_blank'>http://blog.williamachuchi.com/</a></div>
+                    </div>`
+                },
+                contact: {
+                    output: `<div class="command-output">
+                        <div>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='mailto:me@williamachuchi.com'>me@williamachuchi.com</a></div>
+                        <div>Phone:&nbsp;&nbsp;&nbsp;&nbsp;<a href='tel:+254708966189'>+254 708 966 189</a></div>
+                        <div>Location:&nbsp;Nairobi, Kenya</div>
+                    </div>`
+                },
+                projects: {
+                    output: `<div class="command-output">
+                        <div>Here are some of my recent projects:</div>
+                        <div> </div>
+                        <div>• <a href='#' target='_blank'>Distributed Task Scheduler</a> - A Go-based distributed system</div>
+                        <div>• <a href='#' target='_blank'>E-commerce API</a> - Microservices architecture with Node.js</div>
+                        <div>• <a href='#' target='_blank'>Mobile Payment Integration</a> - Flutter application</div>
+                        <div> </div>
+                        <div>Visit my GitHub for more projects: <a href='https://github.com/DeveloperWilliams' target='_blank'>github.com/DeveloperWilliams</a></div>
+                    </div>`
+                },
+                clear: {
+                    output: ``,
+                    isClear: true
+                }
+            };
+            
+            // Function to type out text with a delay
+            function typeWriter() {
+                if (commandIndex < commands.length) {
+                    const command = commands[commandIndex];
+                    
+                    if (command.isCommand) {
+                        const promptElem = document.createElement('div');
+                        promptElem.className = 'command';
+                        promptElem.innerHTML = `<span class="prompt">visitor@portfolio:~$</span> ${command.text}`;
+                        terminalContent.appendChild(promptElem);
+                    } else if (command.isASCII) {
+                        const asciiElem = document.createElement('div');
+                        asciiElem.className = 'ascii-art';
+                        asciiElem.textContent = command.text;
+                        terminalContent.appendChild(asciiElem);
+                    } else if (command.isFinal) {
+                        // After the initial animation, setup interactive mode
+                        setTimeout(initInteractiveMode, command.delay);
+                    } else {
+                        const textElem = document.createElement('div');
+                        textElem.innerHTML = command.text;
+                        terminalContent.appendChild(textElem);
+                    }
+                    
+                    // Scroll to bottom
+                    terminalContent.scrollTop = terminalContent.scrollHeight;
+                    
+                    commandIndex++;
+                    setTimeout(typeWriter, command.delay);
+                }
             }
-        }
-        
-        // Initialize when page loads
-        window.addEventListener('load', function() {
-            createSmoke();
             
-            // Add subtle hover effect to the main container
-            const container = document.querySelector('.container');
-            document.addEventListener('mousemove', function(e) {
-                const moveX = (e.clientX - window.innerWidth / 2) / 25;
-                const moveY = (e.clientY - window.innerHeight / 2) / 25;
+            // Initialize interactive mode
+            function initInteractiveMode() {
+                isInputMode = true;
                 
-                container.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                // Create input line
+                const inputLine = document.createElement('div');
+                inputLine.className = 'input-line';
+                inputLine.innerHTML = `
+                    <span class="prompt">visitor@portfolio:~$</span>
+                    <input type="text" id="command-input" autofocus>
+                `;
+                terminalContent.appendChild(inputLine);
+                
+                const commandInput = document.getElementById('command-input');
+                
+                // Focus on input
+                commandInput.focus();
+                
+                // Handle command submission
+                commandInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        const command = this.value.trim().toLowerCase();
+                        this.value = '';
+                        
+                        // Add the command to output
+                        const commandElem = document.createElement('div');
+                        commandElem.className = 'command';
+                        commandElem.innerHTML = `<span class="prompt">visitor@portfolio:~$</span> ${command}`;
+                        terminalContent.appendChild(commandElem);
+                        
+                        // Process command
+                        if (availableCommands[command]) {
+                            if (availableCommands[command].isClear) {
+                                // Clear terminal
+                                terminalContent.innerHTML = '';
+                            } else {
+                                // Add command output
+                                const outputElem = document.createElement('div');
+                                outputElem.innerHTML = availableCommands[command].output;
+                                terminalContent.appendChild(outputElem);
+                            }
+                        } else if (command) {
+                            // Command not found
+                            const errorElem = document.createElement('div');
+                            errorElem.className = 'command-output';
+                            errorElem.innerHTML = `Command not found: ${command}. Type 'help' to see available commands.`;
+                            terminalContent.appendChild(errorElem);
+                        }
+                        
+                        // Add new input line
+                        const newInputLine = document.createElement('div');
+                        newInputLine.className = 'input-line';
+                        newInputLine.innerHTML = `
+                            <span class="prompt">visitor@portfolio:~$</span>
+                            <input type="text" id="command-input" autofocus>
+                        `;
+                        terminalContent.appendChild(newInputLine);
+                        
+                        // Remove old input and focus on new one
+                        inputLine.remove();
+                        const newCommandInput = document.getElementById('command-input');
+                        newCommandInput.focus();
+                        
+                        // Add event listener to new input
+                        newCommandInput.addEventListener('keydown', arguments.callee);
+                        
+                        // Scroll to bottom
+                        terminalContent.scrollTop = terminalContent.scrollHeight;
+                    }
+                });
+            }
+            
+            // Start the typewriter effect
+            typeWriter();
+            
+            // Add click to focus functionality
+            document.addEventListener('click', function() {
+                if (isInputMode) {
+                    const input = document.getElementById('command-input');
+                    if (input) input.focus();
+                }
             });
         });
     </script>
