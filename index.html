@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>William Achuchi - Software Engineer</title>
+    <title>William Achuchi - Terminal Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -143,12 +143,12 @@
         .main-terminal {
             width: 100%;
             max-width: 900px;
-            height: 600px;
+            min-height: 600px;
         }
 
         .secondary-terminal {
             width: 400px;
-            height: 300px;
+            min-height: 300px;
         }
 
         /* Terminal header */
@@ -198,8 +198,7 @@
         /* Terminal body */
         .terminal-body {
             padding: 20px;
-            height: calc(100% - 60px);
-            overflow-y: auto;
+            min-height: 400px;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
             position: relative;
         }
@@ -339,6 +338,56 @@
             color: rgba(0, 255, 65, 0.5);
         }
 
+        /* Contact styling */
+        .contact-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-icon {
+            margin-right: 12px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-label {
+            color: var(--terminal-blue);
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .contact-value {
+            color: var(--terminal-green);
+            font-weight: 500;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-item {
+            background: rgba(0, 255, 65, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .social-item:hover {
+            background: rgba(0, 255, 65, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
         /* Animations */
         @keyframes pulse {
             0%, 100% { text-shadow: 0 0 20px var(--glow-color); }
@@ -434,7 +483,6 @@
             
             .main-terminal, .secondary-terminal {
                 width: 100%;
-                height: auto;
                 min-height: 400px;
             }
             
@@ -448,6 +496,10 @@
             
             .boot-progress {
                 width: 250px;
+            }
+            
+            .social-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -526,7 +578,7 @@
                     { type: 'separator', text: '', delay: 200 },
                     { type: 'command', command: 'ls -la skills/', output: this.getSkillsContent(), delay: 30 },
                     { type: 'separator', text: '', delay: 200 },
-                    { type: 'command', command: 'cat contact.json', output: this.getContactContent(), delay: 30 },
+                    { type: 'command', command: 'cat contact.pdf', output: this.getContactContent(), delay: 30 },
                     { type: 'separator', text: '', delay: 200 },
                     { type: 'command', command: 'git status', output: this.getGitStatus(), delay: 50 },
                     { type: 'separator', text: '', delay: 200 },
@@ -610,18 +662,51 @@
             }
 
             getContactContent() {
-                return `{
-  "email": "me@williamachuchi.com",
-  "phone": "+254 708 966 189",
-  "social": {
-    "twitter": "https://x.com/dev_williee",
-    "linkedin": "https://www.linkedin.com/in/achuchi/",
-    "github": "https://github.com/DeveloperWilliams",
-    "blog": "http://blog.williamachuchi.com/"
-  },
-  "status": "available_for_opportunities",
-  "timezone": "EAT (UTC+3)"
-}`;
+                return `<div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value"><a href="mailto:me@williamachuchi.com" class="link">me@williamachuchi.com</a></div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-details">
+                        <div class="contact-label">Phone</div>
+                        <div class="contact-value"><a href="tel:+254708966189" class="link">+254 708 966 189</a></div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-details">
+                        <div class="contact-label">Location</div>
+                        <div class="contact-value">Nairobi, Kenya</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-details">
+                        <div class="contact-label">Social</div>
+                        <div class="social-grid">
+                            <a href="https://x.com/dev_williee" class="social-item link" target="_blank">
+                                <div>🐦 Twitter</div>
+                                <div class="contact-value">@dev_williee</div>
+                            </a>
+                            <a href="https://www.linkedin.com/in/achuchi/" class="social-item link" target="_blank">
+                                <div>💼 LinkedIn</div>
+                                <div class="contact-value">achuchi</div>
+                            </a>
+                            <a href="https://github.com/DeveloperWilliams" class="social-item link" target="_blank">
+                                <div>📚 GitHub</div>
+                                <div class="contact-value">DeveloperWilliams</div>
+                            </a>
+                            <a href="http://blog.williamachuchi.com/" class="social-item link" target="_blank">
+                                <div>📝 Blog</div>
+                                <div class="contact-value">blog.williamachuchi.com</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>`;
             }
 
             getGitStatus() {
@@ -802,7 +887,8 @@ nothing to commit, working tree clean`;
   social     - Display social links
   resume     - Download resume
   date       - Show current date
-  fortune    - Random quote</span>`;
+  fortune    - Random quote
+  contact    - Show contact information</span>`;
                         break;
                     
                     case 'clear':
@@ -857,6 +943,10 @@ nothing to commit, working tree clean`;
                         outputLine.innerHTML = `<span class="output">${randomQuote}</span>`;
                         break;
                     
+                    case 'contact':
+                        outputLine.innerHTML = `<span class="output">${this.getContactContent()}</span>`;
+                        break;
+                    
                     default:
                         outputLine.innerHTML = `<span class="error">Command not found: ${command}. Type 'help' for available commands.</span>`;
                         break;
@@ -864,6 +954,10 @@ nothing to commit, working tree clean`;
 
                 this.mainTerminal.appendChild(outputLine);
                 this.mainTerminal.scrollTop = this.mainTerminal.scrollHeight;
+                
+                // Re-focus input
+                const input = document.getElementById('commandInput');
+                if (input) input.focus();
             }
 
             sleep(ms) {
