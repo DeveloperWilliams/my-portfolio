@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>William Achuchi | Software Engineer & Architect</title>
+    <title>Wanyama William Achuchi | Backend & Systems Architect</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <meta name="description" content="Senior Backend Engineer & System Architect with expertise in data engineering, distributed systems, and modern architectural patterns. Skilled in designing scalable, high-performance solutions that power enterprise applications.">
+    <meta name="description" content="Backend & Systems Architect with 4+ years of experience designing fault-tolerant, scalable platforms across finance, IoT, and enterprise domains.">
     <meta name="google-site-verification" content="wx3dZ5RMT8srqDxuMXrznwJrTj263zJoQM4XdmjIfYY" />
-    <link rel="icon" href="https://favicon.io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -521,6 +521,23 @@
             margin-bottom: 1rem;
         }
 
+        .experience-highlights {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
         .experience-tech {
             display: flex;
             flex-wrap: wrap;
@@ -534,6 +551,96 @@
             padding: 0.3rem 0.6rem;
             border-radius: 4px;
             font-family: var(--font-mono);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-img {
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary), var(--accent-dark));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230a192f" opacity="0.3"/><path d="M25,25 L75,25 L75,75 L25,75 Z" fill="none" stroke="%2364ffda" stroke-width="2"/></svg>');
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-title {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .project-excerpt {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+            margin-top: auto;
+        }
+
+        .project-link i {
+            margin-left: 5px;
+            transition: var(--transition);
+        }
+
+        .project-link:hover {
+            color: var(--text-primary);
+        }
+
+        .project-link:hover i {
+            transform: translateX(3px);
         }
 
         /* Blog Section */
@@ -958,7 +1065,7 @@
                 margin-top: 0.5rem;
             }
 
-            .blog-grid {
+            .projects-grid, .blog-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -1042,6 +1149,7 @@
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
             <li><a href="#blog">Blog</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -1056,19 +1164,20 @@
             <div class="hero-text">
                 <p class="greeting">Hi, my name is</p>
                 <h1 class="name">Wanyama William Achuchi</h1>
-                <h2 class="title">Software Engineer & Architect</h2>
+                <h2 class="title">Backend & Systems Architect</h2>
                 <p class="description">
-                    I'm a software engineer specializing in building exceptional digital experiences. 
-                    Currently, I'm focused on building accessible, human-centered products at the intersection of technology and design.
+                    I'm a Backend & Systems Architect with 4+ years of experience designing fault-tolerant, 
+                    scalable platforms across finance, IoT, and enterprise domains. Expert in distributed systems 
+                    and service-oriented architectures.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#blog" class="btn btn-filled">Read My Blog</a>
+                    <a href="William-Achuchi.pdf" class="btn btn-filled" download>Download CV</a>
                     <a href="#contact" class="btn">Get In Touch</a>
                 </div>
             </div>
             <div class="hero-image">
                 <div class="profile-img-container">
-                    <div class="profile-img"></div></div>
+                    <div class="profile-img"></div>
                     <div class="tech-badge badge-1">
                         <i class="fab fa-node-js"></i>
                     </div>
@@ -1076,7 +1185,7 @@
                         <i class="fas fa-database"></i>
                     </div>
                     <div class="tech-badge badge-3">
-                        <i class="fab fa-react"></i>
+                        <i class="fab fa-docker"></i>
                     </div>
                 </div>
             </div>
@@ -1089,33 +1198,36 @@
         <div class="about-content">
             <div class="about-text">
                 <p>
-                    Hello! My name is Wanyama William Achuchi and I enjoy creating things that live on the internet. 
-                    My interest in software development started back in 2015 when I decided to try customizing web themes — turns out hacking together a custom reblog button taught me a lot about HTML & CSS!
+                    Backend & Systems Architect with 4+ years of experience designing fault-tolerant, scalable platforms 
+                    across finance, IoT, and enterprise domains. Expert in distributed systems and service-oriented 
+                    architectures (microservices, event-driven, CQRS).
                 </p>
                 <p>
-                    Fast-forward to today, and I've had the privilege of working at various companies, 
-                    and collaborating with talented people to create digital products for both business and consumer use.
+                    Proven ability to translate complex business requirements into secure, observable, and high-performance 
+                    backend systems. Skilled in multi-cloud (Azure, AWS) and custom VPS/Linux environments, container 
+                    orchestration (Kubernetes, Docker), and Infrastructure as Code (Terraform).
                 </p>
                 <p>
-                    I also recently started diving deeper into software architecture and data engineering, 
-                    focusing on how to build scalable, maintainable systems that can handle real-world complexity.
+                    Adept at leading engineering teams, setting platform roadmaps, and optimizing delivery pipelines 
+                    (reduced deployment cycles by 40%, achieved 99.9% uptime across critical services). Fullstack 
+                    experience with React, Node.js, and .NET ensures end-to-end ownership from system design to user-facing delivery.
                 </p>
             </div>
             <div class="skills">
-                <h3>My Skills</h3>
+                <h3 style="color: var(--text-primary); margin-bottom: 1.5rem;">Technical Skills</h3>
                 <ul class="skills-list">
-                    <li>JavaScript (ES6+)</li>
-                    <li>Node.js</li>
-                    <li>.NET</li>
+                    <li>JavaScript / TypeScript</li>
+                    <li>Node.js / Express</li>
+                    <li>.NET / ASP.NET Core</li>
                     <li>Python</li>
                     <li>React & React Native</li>
-                    <li>PostgreSQL</li>
-                    <li>MongoDB</li>
-                    <li>AWS</li>
-                    <li>Docker</li>
-                    <li>Kubernetes</li>
-                    <li>System Architecture</li>
-                    <li>Data Engineering</li>
+                    <li>PostgreSQL / MongoDB</li>
+                    <li>Docker / Kubernetes</li>
+                    <li>Terraform / Ansible</li>
+                    <li>AWS / Azure</li>
+                    <li>Microservices Architecture</li>
+                    <li>Event-Driven Systems</li>
+                    <li>DevOps & CI/CD</li>
                 </ul>
             </div>
         </div>
@@ -1128,85 +1240,152 @@
             <div class="experience-item">
                 <div class="experience-header">
                     <div>
-                        <h3 class="experience-title">Software Architect</h3>
+                        <h3 class="experience-title">Founder & Senior Fullstack Architect</h3>
                         <p class="experience-company">Willsoft Technologies</p>
                     </div>
-                    <p class="experience-date">January 2022 - Present</p>
+                    <p class="experience-date">Jun 2023 – Present</p>
                 </div>
-                <p class="experience-desc">
-                    Leading architecture design and implementation for enterprise software solutions, 
-                    focusing on scalability, maintainability, and performance optimization.
-                </p>
+                <div class="experience-highlights">
+                    <p class="highlight">Enterprise Systems Delivery: Led end-to-end delivery of financial platforms and enterprise apps; production systems processed $1M+ annually.</p>
+                    <p class="highlight">Platform Architecture & Scaling: Architected containerized microservices on AKS and Azure Linux VMs with Terraform and Helm — achieving 99.9% uptime and horizontally scaling to support 30k+ concurrent users.</p>
+                    <p class="highlight">Cloud DevOps Leadership: Established IaC practices (Terraform), gitops deployment workflows, and secure secrets management; reduced mean time to recovery (MTTR) by 55%.</p>
+                    <p class="highlight">Financial Integrations: Built secure payment and reconciliation pipelines integrated with Stripe and M-Pesa; implemented transaction auditing and replayable event streams.</p>
+                </div>
                 <div class="experience-tech">
-                    <span class="tech-tag">System Design</span>
                     <span class="tech-tag">Microservices</span>
-                    <span class="tech-tag">AWS</span>
-                    <span class="tech-tag">Kubernetes</span>
+                    <span class="tech-tag">Azure AKS</span>
+                    <span class="tech-tag">Terraform</span>
+                    <span class="tech-tag">Helm</span>
+                    <span class="tech-tag">Stripe</span>
+                    <span class="tech-tag">M-Pesa</span>
                     <span class="tech-tag">Node.js</span>
-                    <span class="tech-tag">.NET</span>
+                    <span class="tech-tag">React</span>
                 </div>
             </div>
 
             <div class="experience-item">
                 <div class="experience-header">
                     <div>
-                        <h3 class="experience-title">Backend Engineer</h3>
+                        <h3 class="experience-title">Mobile IoT Developer (Contract) – ESP32 & Firmware</h3>
                         <p class="experience-company">GeoTruth Consult</p>
                     </div>
-                    <p class="experience-date">March 2020 - December 2023</p>
+                    <p class="experience-date">Jan 2025 – Jun 2025</p>
                 </div>
-                <p class="experience-desc">
-                    Developed robust backend systems for geospatial data processing and analysis, 
-                    implementing RESTful APIs and real-time data streaming solutions.
-                </p>
+                <div class="experience-highlights">
+                    <p class="highlight">IoT Mobile Applications: Delivered React Native control app for ESP32 devices with OTA firmware updates and secure authentication.</p>
+                    <p class="highlight">Embedded Systems: Wrote C and MicroPython modules for telemetry and device communication over MQTT.</p>
+                    <p class="highlight">End-to-End Integration: Built backend ingestion pipelines with dashboards for monitoring device health and data streams (Azure Event Hubs, Stream Analytics).</p>
+                </div>
                 <div class="experience-tech">
+                    <span class="tech-tag">React Native</span>
+                    <span class="tech-tag">ESP32</span>
+                    <span class="tech-tag">C</span>
+                    <span class="tech-tag">MicroPython</span>
+                    <span class="tech-tag">MQTT</span>
+                    <span class="tech-tag">Azure Event Hubs</span>
+                    <span class="tech-tag">Stream Analytics</span>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <h3 class="experience-title">Senior Fullstack Developer & Lead Architect</h3>
+                        <p class="experience-company">StudyBuddy Africa</p>
+                    </div>
+                    <p class="experience-date">Sep 2024 – Jun 2025</p>
+                </div>
+                <div class="experience-highlights">
+                    <p class="highlight">Technical Leadership: Defined cloud-native platform architecture: AKS, API gateway, event-driven processing, and distributed data partitioning.</p>
+                    <p class="highlight">Scalable Platform Delivery: Migrated monolith to AKS microservices — cut deployment time by 40% and improved fault isolation via namespaces and pod anti-affinity.</p>
+                    <p class="highlight">Fintech Integrations: Implemented payment rails and KYC/AML providers; introduced real-time fraud monitoring and circuit-breaker patterns.</p>
+                    <p class="highlight">Real-Time Learning Systems: Introduced GraphQL subscriptions and WebSockets for live course progress, chat, and notifications.</p>
+                </div>
+                <div class="experience-tech">
+                    <span class="tech-tag">Azure AKS</span>
+                    <span class="tech-tag">GraphQL</span>
+                    <span class="tech-tag">WebSockets</span>
+                    <span class="tech-tag">KYC/AML</span>
+                    <span class="tech-tag">Microservices</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">React</span>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <h3 class="experience-title">Fullstack Web & Backend Engineer</h3>
+                        <p class="experience-company">GeoTruth Consult</p>
+                    </div>
+                    <p class="experience-date">Jan 2021 – May 2024</p>
+                </div>
+                <div class="experience-highlights">
+                    <p class="highlight">Client-Facing Platforms: Developed responsive web/mobile apps for surveying clients using React, React Native, and Express.</p>
+                    <p class="highlight">Backend Systems: Designed and optimized REST APIs, Postgres schemas, and reporting pipelines handling millions of rows of geospatial data.</p>
+                    <p class="highlight">Data Engineering: Built ETL pipelines with monitoring, anomaly detection, and recovery workflows for mission-critical data.</p>
+                    <p class="highlight">DevOps Practices: Implemented CI/CD with GitHub Actions and Jenkins, containerized services, and standardized deployments to AKS and Azure VMs.</p>
+                </div>
+                <div class="experience-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">React Native</span>
                     <span class="tech-tag">Node.js</span>
                     <span class="tech-tag">PostgreSQL</span>
-                    <span class="tech-tag">PostGIS</span>
-                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">ETL</span>
+                    <span class="tech-tag">GitHub Actions</span>
+                    <span class="tech-tag">Jenkins</span>
                     <span class="tech-tag">Docker</span>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <h3 class="experience-title">Data Engineer(part-time)</h3>
-                        <p class="experience-company">GeoTruth Consult</p>
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title">Selected Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-img"></div>
+                <div class="project-info">
+                    <h3 class="project-title">Financial Network Marketing Platform</h3>
+                    <p class="project-excerpt">High-scale fintech networking platform serving 30k+ active users; built with React, Node.js, PostgreSQL, Docker, and AKS. Reduced latency p95 by 30% after query optimization and caching.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">AKS</span>
                     </div>
-                    <p class="experience-date">June 2025 - Present</p>
-                </div>
-                <p class="experience-desc">
-                    Designed and implemented data pipelines for processing large-scale geospatial datasets, 
-                    creating ETL processes and data warehousing solutions.
-                </p>
-                <div class="experience-tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Apache Spark</span>
-                    <span class="tech-tag">Airflow</span>
-                    <span class="tech-tag">BigQuery</span>
-                    <span class="tech-tag">Data Modeling</span>
+                    <a href="#" class="project-link">View Details <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <h3 class="experience-title">Backend Engineer</h3>
-                        <p class="experience-company">StudyBuddy Africa</p>
+            <div class="project-card">
+                <div class="project-img"></div>
+                <div class="project-info">
+                    <h3 class="project-title">Fullstack Microfinance Management System</h3>
+                    <p class="project-excerpt">Microfinance solution supporting loan origination, repayment schedules, KYC/AML flows, and reporting dashboards. Stack: React, .NET, PostgreSQL, Express APIs.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">.NET</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">KYC/AML</span>
                     </div>
-                    <p class="experience-date">January 2017 - May 2018</p>
+                    <a href="#" class="project-link">View Details <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <p class="experience-desc">
-                    Developed the backend infrastructure for an educational platform, implementing user authentication, 
-                    content management, and real-time collaboration features.
-                </p>
-                <div class="experience-tech">
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">MongoDB</span>
-                    <span class="tech-tag">Express.js</span>
-                    <span class="tech-tag">Socket.io</span>
-                    <span class="tech-tag">REST APIs</span>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img"></div>
+                <div class="project-info">
+                    <h3 class="project-title">Inventory Management POS System</h3>
+                    <p class="project-excerpt">Real-time POS solution with inventory tracking, WebSocket notifications, and financial reporting; supported daily transaction volume of 50k+ items.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">WebSockets</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                    </div>
+                    <a href="#" class="project-link">View Details <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -1231,11 +1410,11 @@
             <div class="blog-card">
                 <div class="blog-img"></div>
                 <div class="blog-info">
-                    <h3 class="blog-title">Why Your Programming Language Is the Best for You</h3>
-                    <p class="blog-excerpt">Exploring the concept of programming language affinity and why the "best" language is often the one that aligns with your thinking patterns and project requirements.</p>
+                    <h3 class="blog-title">A Beginner's Guide to Dockerizing</h3>
+                    <p class="blog-excerpt">A comprehensive guide to containerizing applications with Docker, covering best practices, multi-stage builds, and deployment strategies.</p>
                     <div class="blog-meta">
-                        <span class="blog-date">January 28, 2023</span>
-                        <a href="https://medium.com/@achuchiwilliam/why-your-programming-language-is-the-best-for-you-d00d5ff7b356" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <span class="blog-date">April 22, 2023</span>
+                        <a href="https://blog.williamachuchi.com/a-beginners-guide-to-dockerizing-72e0d65b3792" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -1243,11 +1422,11 @@
             <div class="blog-card">
                 <div class="blog-img"></div>
                 <div class="blog-info">
-                    <h3 class="blog-title">Getting Started with C# and .NET: A Beginner's Guide</h3>
-                    <p class="blog-excerpt">A comprehensive introduction to C# and the .NET ecosystem for developers new to Microsoft's powerful programming platform.</p>
+                    <h3 class="blog-title">Why Your Programming Language Is the Best for You</h3>
+                    <p class="blog-excerpt">Exploring the concept of programming language affinity and why the "best" language is often the one that aligns with your thinking patterns and project requirements.</p>
                     <div class="blog-meta">
-                        <span class="blog-date">November 5, 2022</span>
-                        <a href="https://medium.com/@achuchiwilliam/getting-started-with-c-and-net-a-beginners-guide-7c1e4a05d1b4" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <span class="blog-date">January 28, 2023</span>
+                        <a href="https://medium.com/@achuchiwilliam/why-your-programming-language-is-the-best-for-you-d00d5ff7b356" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -1260,6 +1439,7 @@
         <div class="contact-content">
             <div class="contact-intro">
                 <p>I'm currently available for consulting and interesting projects. Feel free to reach out if you'd like to work with me or just say hello!</p>
+                <a href="William-Achuchi.pdf" class="btn btn-filled" download style="margin-top: 2rem;">Download My CV</a>
             </div>
             <div class="contact-info">
                 <div class="contact-item">
@@ -1268,7 +1448,7 @@
                     </div>
                     <div class="contact-details">
                         <h3>Phone</h3>
-                        <p><a href="tel:+254708966189">+254708966189</a></p>
+                        <p><a href="tel:+254708966189">+254-708-966189</a></p>
                         <div class="social-links">
                             <a href="https://wa.me/254708966189" class="social-link">
                                 <i class="fab fa-whatsapp"></i>
@@ -1286,9 +1466,9 @@
                     </div>
                     <div class="contact-details">
                         <h3>Email</h3>
-                        <p><a href="mailto:contact@williamachuchi.com">contact@williamachuchi.com</a></p>
+                        <p><a href="mailto:archywilliams2@gmail.com">archywilliams2@gmail.com</a></p>
                         <div class="social-links">
-                            <a href="mailto:contact@williamachuchi.com" class="social-link">
+                            <a href="mailto:archywilliams2@gmail.com" class="social-link">
                                 <i class="fas fa-envelope"></i>
                             </a>
                             <a href="https://www.linkedin.com/in/achuchi/" class="social-link">
@@ -1303,13 +1483,13 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="contact-details">
-                        <h3>Location</h3>
+                        <h3>Location & Online</h3>
                         <p>Nairobi, Kenya</p>
                         <div class="social-links">
                             <a href="https://github.com/DeveloperWilliams" class="social-link">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://x.com/dev_williee" class="social-link">
+                            <a href="https://x.com/DevWilliee" class="social-link">
                                 <i class="fab fa-twitter"></i>
                             </a>
                             <a href="http://blog.williamachuchi.com/" class="social-link">
@@ -1326,7 +1506,6 @@
     <footer>
         <div class="footer-content">
             <p class="footer-note">"First, solve the problem. Then, write the code." - John Johnson</p>
-
             <p class="copyright">© 2023 Wanyama William Achuchi. All rights reserved.</p>
         </div>
     </footer>
@@ -1388,7 +1567,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('section, .experience-item, .blog-card, .contact-item').forEach(element => {
+        document.querySelectorAll('section, .experience-item, .project-card, .blog-card, .contact-item').forEach(element => {
             element.style.opacity = '0';
             observer.observe(element);
         });
